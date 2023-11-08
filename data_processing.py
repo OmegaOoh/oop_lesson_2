@@ -176,11 +176,33 @@ print()
 
 # average passes made by forwards vs midfielders
 my_table4_midfield = my_table4.filter(lambda x: x['position'] == 'midfielder')
-midfield_pass = [int(i['passes']) for i in my_table4_midfield.select('passes')]
-avg_pass_midfielder = sum(midfield_pass)/len(midfield_pass)
+avg_pass_midfielder = my_table4_midfield.aggregate(lambda x: sum(x)/len(x), 'passes')
 
 my_table4_forward = my_table4.filter(lambda x: x['position'] == 'forward')
-forward_pass = [int(i['passes']) for i in my_table4_forward.select('passes')]
-avg_pass_forward = sum(forward_pass)/len(forward_pass)
+avg_pass_forward = my_table4_forward.aggregate(lambda x: sum(x)/len(x), 'passes')
 print(f'Ball passes \nForwards: {avg_pass_forward:.4f} vs Midfielder: {avg_pass_midfielder:.4f}')
+print()
+
+my_table6 = my_DB.search('titanic')
+# Average fare First Class vs Third class
+my_table6_first_class = my_table6.filter(lambda x: x['class'] == '1')
+first_class_avg = my_table6_first_class.aggregate(lambda x: sum(x)/len(x), 'fare')
+
+my_table6_third_class = my_table6.filter(lambda x: x['class'] == '3')
+third_class_avg = my_table6_third_class.aggregate(lambda x: sum(x)/len(x), 'fare')
+print(f'Average Fare\nFirst Class: {first_class_avg:.4f} vs Third Class: {third_class_avg:.4f}')
+print()
+
+# Survival rate of Male vs Female passenger
+my_table6_male = my_table6.filter(lambda x: x['gender'] == 'M')
+male_total = len(my_table6_male.select('survived'))
+male_survived = len(my_table6_male.filter(lambda x: x['survived'] == 'yes').select('survived'))
+male_rate = male_survived / male_total * 100
+
+my_table6_female = my_table6.filter(lambda x: x['gender'] == 'F')
+female_total = len(my_table6_female.select('survived'))
+female_survived = len(my_table6_female.filter(lambda x: x['survived'] == 'yes').select('survived'))
+female_rate = female_survived / female_total * 100
+print(f'Survival rate\nMale: {male_rate:.4f} % vs Female: {female_rate:.4f} %')
+print()
 
