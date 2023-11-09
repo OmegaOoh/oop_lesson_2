@@ -140,7 +140,7 @@ class Table:
         # for each filter table applies the relevant aggregate functions
         # to keys to aggregate
         # the aggregate functions is listed in aggregate_func_list
-        # to keys to aggregate is listed in keys_to_aggreagte_list
+        # to keys to aggregate is listed in keys_to_aggregate_list
         pivot_table = []
         for i in range(len(table_list)):
             temp_list = []
@@ -269,8 +269,24 @@ my_table4 = my_DB.search('titanic')
 my_pivot = my_table4.pivot_table(['embarked', 'gender', 'class'],
                                  ['fare', 'fare', 'fare', 'last'],
                                  [lambda x: min(x), lambda x: max(x), lambda x: sum(x) / len(x), lambda x: len(x)])
-print('[', end='')
-for i in my_pivot[:-1]:
-    print(i)
-print(f'{my_pivot[-1]}]')
+print(my_pivot)
+print()
 
+my_table7 = my_DB.search('players')
+my_pivot2 = my_table7.pivot_table(['position'],
+                                  ['passes', 'shots'],
+                                  [lambda x: sum(x)/len(x), lambda x: sum(x)/len(x)])
+print(my_pivot2)
+print()
+my_table8 = my_DB.search('countries')
+my_table8 = my_table8.join(my_DB.search('cities'), 'country')
+my_pivot3 = my_table8.pivot_table(['EU', 'coastline',],
+                                  ['temperature', 'latitude', 'latitude'],
+                                  [lambda x: sum(x)/len(x), lambda x: min(x), lambda x: max(x)])
+print(my_pivot3)
+print()
+my_pivot4 = my_table4.pivot_table(['class', 'gender', 'survived'],
+                                  ['survived', 'fare'],
+                                  [lambda x: len(x), lambda x:sum(x)/len(x)])
+print(my_pivot4)
+print()

@@ -25,4 +25,4 @@ def gen_comb_list(list_set):
                 o_put.append(new_ls)
         return o_put
 
-print(gen_comb_list([[1, 2, 3], [4, 5], [6, 7, 8]]))
+# print(gen_comb_list([[1, 2, 3], [4, 5], [6, 7, 8]]))
