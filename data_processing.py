@@ -74,13 +74,13 @@ class Table:
             if condition(item1):
                 filtered_table.table.append(item1)
         return filtered_table
-    
+
     def aggregate(self, function, aggregation_key):
         temps = []
         for item1 in self.table:
             temps.append(float(item1[aggregation_key]))
         return function(temps)
-    
+
     def select(self, attributes_list):
         temps = []
         for item1 in self.table:
@@ -163,14 +163,10 @@ print()
 # average of games played of team ranking < 10 and >= 10
 my_table5 = my_DB.search('teams')
 my_table5_filtered_top10 = my_table5.filter(lambda x: int(x['ranking']) < 10)
-my_table5_top10 = my_table5_filtered_top10.select('games')
-ls_games_top10 = [int(i['games']) for i in my_table5_top10]
-avg_games_top10 = sum(ls_games_top10)/len(ls_games_top10)
+avg_games_top10 = my_table5_filtered_top10.aggregate(lambda x: sum(x)/len(x), 'games')
 
 my_table5_filtered = my_table5.filter(lambda x: int(x['ranking']) >= 10)
-my_table5_not_top10 = my_table5_filtered.select('games')
-ls_games_not_top10 = [int(i['games']) for i in my_table5_not_top10]
-avg_games_not_top10 = sum(ls_games_not_top10)/len(ls_games_not_top10)
+avg_games_not_top10 = my_table5_filtered.aggregate(lambda x: sum(x)/len(x), 'games')
 print(f"Games Played by Teams \nRanking < 10: {avg_games_top10:.4f} vs Ranking >= 10: {avg_games_not_top10:.4f}")
 print()
 
