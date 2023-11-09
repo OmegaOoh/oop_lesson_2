@@ -16,11 +16,13 @@ def gen_comb_list(list_set):
     if len(list_set) == 1:
         return [[i] for i in list_set[0]]
     else:
-        f_ls = list_set[0]
+        f_ls = list_set[-1]
         o_put = []
         for i in f_ls:
-            for j in gen_comb_list(list_set[1:]):
-                new_ls = [i]
-                new_ls.extend(j)
+            for j in gen_comb_list(list_set[:-1]):
+                new_ls = j
+                new_ls.append(i)
                 o_put.append(new_ls)
         return o_put
+
+print(gen_comb_list([[1, 2, 3], [4, 5], [6, 7, 8]]))
