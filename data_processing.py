@@ -206,3 +206,8 @@ female_rate = female_survived / female_total * 100
 print(f'Survival rate\nMale: {male_rate:.4f} % vs Female: {female_rate:.4f} %')
 print()
 
+# Find total male passenger embarked at Southampton
+my_table6_m_stt = my_table6.filter(lambda x: x['gender'] == 'M')
+my_table6_m_stt = my_table6_m_stt.filter(lambda x: x['embarked'] == 'Southampton')
+passenger_num = len(my_table6_m_stt.select('surname'))
+print(f'There are {passenger_num} male passenger embarked at Southampton')
